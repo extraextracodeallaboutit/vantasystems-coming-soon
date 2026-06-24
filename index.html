@@ -3,115 +3,126 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VANTA SYSTEMS</title>
+  <title>VANTA SYSTEMS — BUILDING AUTONOMOUS FUTURES.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --white: #ffffff;
       --black: #0a0a0a;
-      --grey: rgba(255,255,255,0.6);
+      --white: #f0efed;
+      --grey: #5a5a5a;
+      --grey-light: #2a2a2a;
+      --border: #1e1e1e;
     }
 
-    html, body { height: 100%; overflow: hidden; }
+    html { scroll-behavior: smooth; }
 
     body {
+      background: var(--black);
+      color: var(--white);
       font-family: 'Inter', -apple-system, sans-serif;
       font-weight: 300;
       -webkit-font-smoothing: antialiased;
-      background: #000;
+      overflow-x: hidden;
     }
 
-    /* Background */
-    .bg {
-      position: fixed;
-      inset: 0;
-      background: url('bs.jpeg') center center / cover no-repeat;
-      z-index: 0;
+    /* ── Ticker ── */
+    .ticker {
+      background: var(--white);
+      color: var(--black);
+      padding: 9px 0;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
-    .bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.35) 0%,
-        rgba(0,0,0,0.15) 40%,
-        rgba(0,0,0,0.45) 100%
-      );
+    .ticker-track {
+      display: inline-flex;
+      animation: ticker 28s linear infinite;
     }
 
-    /* Nav */
+    .ticker-item {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0 40px;
+    }
+
+    .ticker-item::after {
+      content: '✦';
+      margin-left: 40px;
+      opacity: 0.3;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Nav ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 28px 48px;
+      padding: 0 48px;
+      height: 72px;
+      border-bottom: 1px solid var(--border);
     }
 
     .nav-logo {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--white);
+      height: 40px;
+      width: auto;
+      display: block;
     }
 
     .nav-links {
       display: flex;
-      gap: 8px;
+      align-items: center;
+      gap: 4px;
       list-style: none;
-    }
-
-    .nav-item {
-      position: relative;
     }
 
     .nav-btn {
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.55);
+      border: 1px solid var(--border);
       color: var(--white);
       font-family: 'Inter', sans-serif;
       font-size: 9px;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      padding: 7px 14px;
+      padding: 8px 16px;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+      transition: border-color 0.15s, background 0.15s;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
-    .nav-btn:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.9);
-    }
+    .nav-btn:hover { border-color: var(--grey); background: var(--grey-light); }
 
     .nav-btn svg {
       width: 8px; height: 8px;
       transition: transform 0.2s;
     }
 
+    .nav-item { position: relative; }
     .nav-item.open .nav-btn svg { transform: rotate(180deg); }
+    .nav-item.open .nav-btn { border-color: var(--grey); background: var(--grey-light); }
 
-    /* Dropdown */
+    /* ── Dropdown ── */
     .dropdown {
       display: none;
       position: absolute;
       top: calc(100% + 8px);
       right: 0;
-      background: var(--white);
-      min-width: 320px;
+      background: #111;
+      border: 1px solid var(--border);
+      min-width: 340px;
       padding: 28px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      z-index: 200;
     }
 
     .nav-item.open .dropdown { display: block; }
@@ -120,21 +131,21 @@
       font-size: 9px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #999;
-      margin-bottom: 20px;
+      color: var(--grey);
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .field {
-      margin-bottom: 16px;
-    }
+    .field { margin-bottom: 18px; }
 
     .field label {
       display: block;
       font-size: 9px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #999;
-      margin-bottom: 6px;
+      color: var(--grey);
+      margin-bottom: 7px;
     }
 
     .field input,
@@ -143,12 +154,12 @@
       width: 100%;
       background: transparent;
       border: none;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #2e2e2e;
       padding: 6px 0;
       font-family: 'Inter', sans-serif;
       font-size: 12px;
       font-weight: 300;
-      color: var(--black);
+      color: var(--white);
       outline: none;
       transition: border-color 0.15s;
       resize: none;
@@ -156,97 +167,109 @@
 
     .field input:focus,
     .field textarea:focus,
-    .field select:focus { border-color: var(--black); }
+    .field select:focus { border-color: var(--grey); }
 
-    .field textarea { height: 60px; }
+    .field textarea { height: 64px; }
 
-    .field select { cursor: pointer; appearance: none; }
+    .field select {
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .field select option { background: #111; }
 
     .submit-btn {
       width: 100%;
-      background: var(--black);
-      color: var(--white);
+      background: var(--white);
+      color: var(--black);
       border: none;
       font-family: 'Inter', sans-serif;
       font-size: 9px;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      padding: 12px;
+      padding: 13px;
       cursor: pointer;
-      margin-top: 8px;
-      transition: background 0.15s;
+      margin-top: 4px;
+      transition: opacity 0.15s;
     }
 
-    .submit-btn:hover { background: #333; }
+    .submit-btn:hover { opacity: 0.85; }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .form-success {
       display: none;
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--black);
+      color: var(--white);
       text-align: center;
-      padding: 12px 0 0;
+      padding: 14px 0 0;
+      line-height: 1.6;
     }
 
-    /* Main content */
-    .content {
-      position: relative;
-      z-index: 10;
-      height: 100vh;
+    /* ── Hero ── */
+    .hero {
+      min-height: calc(100vh - 108px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-left {
+      padding: 80px 48px;
+      border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      text-align: center;
-      padding: 0 24px 120px;
+      justify-content: space-between;
     }
 
-    .content-eyebrow {
+    .hero-tag {
       font-size: 9px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 20px;
+      color: var(--grey);
+      margin-bottom: 40px;
     }
 
-    .content-title {
-      font-size: clamp(32px, 4vw, 56px);
+    h1 {
+      font-size: clamp(36px, 4.2vw, 66px);
       font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
       color: var(--white);
-      margin-bottom: 16px;
+      margin-bottom: 40px;
     }
 
-    .content-desc {
-      font-size: 12px;
+    h1 span { color: var(--grey); }
+
+    .hero-desc {
+      font-size: 13px;
       line-height: 1.8;
-      color: rgba(255,255,255,0.65);
-      max-width: 420px;
-      letter-spacing: 0.02em;
-      margin-bottom: 52px;
+      color: var(--grey);
+      max-width: 400px;
+      margin-bottom: 56px;
     }
 
     /* Countdown */
     .countdown {
       display: flex;
-      align-items: flex-start;
       gap: 0;
+      border: 1px solid var(--border);
+      align-self: flex-start;
     }
 
     .cd-unit {
+      padding: 20px 28px;
       text-align: center;
-      padding: 0 20px;
-      border-right: 1px solid rgba(255,255,255,0.2);
+      border-right: 1px solid var(--border);
     }
 
     .cd-unit:last-child { border-right: none; }
 
     .cd-num {
       display: block;
-      font-size: clamp(28px, 3.5vw, 44px);
+      font-size: 30px;
       font-weight: 300;
       letter-spacing: -0.02em;
       color: var(--white);
@@ -257,152 +280,356 @@
 
     .cd-label {
       font-size: 7px;
-      letter-spacing: 0.24em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
+      color: var(--grey);
     }
 
-    /* Footer */
-    .footer {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      z-index: 10;
+    /* Hero right — careers widget */
+    .hero-right {
+      padding: 80px 48px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Job cards */
+    .jobs { display: flex; flex-direction: column; gap: 0; }
+
+    .job-card {
+      border: 1px solid var(--border);
+      border-top: none;
+      padding: 22px 24px;
       display: flex;
       justify-content: space-between;
-      padding: 24px 48px;
+      align-items: center;
+      transition: background 0.15s;
+      cursor: pointer;
     }
 
-    .footer span {
+    .job-card:first-child { border-top: 1px solid var(--border); }
+    .job-card:hover { background: var(--grey-light); }
+
+    .job-info {}
+
+    .job-title {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 5px;
+      letter-spacing: 0.01em;
+    }
+
+    .job-meta {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .job-meta span { margin-right: 16px; }
+
+    .job-apply {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+
+    .job-apply:hover { border-color: var(--grey); background: #222; }
+
+    .jobs-note {
+      font-size: 10px;
+      color: var(--grey);
+      margin-top: 20px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Apply modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #111;
+      border: 1px solid var(--border);
+      padding: 36px;
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--grey);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .modal-close:hover { color: var(--white); }
+
+    .modal-title {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 6px;
+    }
+
+    .modal-role {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Footer ── */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-l, .footer-r {
       font-size: 9px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
+      color: var(--grey);
     }
 
-    /* Mobile */
-    @media (max-width: 640px) {
-      nav { padding: 20px 24px; }
-      .nav-links { gap: 6px; }
-      .nav-btn { padding: 6px 10px; font-size: 8px; }
-      .dropdown { min-width: 280px; right: -24px; }
-      .cd-unit { padding: 0 12px; }
-      .footer { padding: 20px 24px; }
-      .footer .footer-right { display: none; }
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-right { padding: 48px 24px; }
+      .countdown { flex-wrap: wrap; }
+      .cd-unit { padding: 16px 20px; }
+      footer { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
-<div class="bg"></div>
+<!-- Ticker -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker-track">
+    <span class="ticker-item">Vanta Systems</span>
+    <span class="ticker-item">Building Autonomous Futures</span>
+    <span class="ticker-item">Intelligence &amp; Security</span>
+    <span class="ticker-item">Coming Soon</span>
+    <span class="ticker-item">Est. 2025 — Australia</span>
+    <span class="ticker-item">Vanta Systems</span>
+    <span class="ticker-item">Building Autonomous Futures</span>
+    <span class="ticker-item">Intelligence &amp; Security</span>
+    <span class="ticker-item">Coming Soon</span>
+    <span class="ticker-item">Est. 2025 — Australia</span>
+  </div>
+</div>
 
 <!-- Nav -->
 <nav>
-  <div class="nav-logo">Vanta Systems</div>
+  <img src="2.png" alt="Vanta Systems" class="nav-logo" />
   <ul class="nav-links">
 
-    <!-- Enquiries -->
     <li class="nav-item" id="enquiries-item">
       <button class="nav-btn" onclick="toggle('enquiries-item')">
         Enquiries
-        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M1 1l4 4 4-4"/>
-        </svg>
+        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
       </button>
       <div class="dropdown">
         <div class="dropdown-title">General Enquiry</div>
-        <form onsubmit="submitForm(event, 'enquiry-success')">
+        <form onsubmit="submitEnquiry(event)">
           <div class="field">
             <label>Full Name</label>
-            <input type="text" placeholder="Your name" required />
+            <input type="text" name="name" placeholder="Your name" required />
           </div>
           <div class="field">
             <label>Email</label>
-            <input type="email" placeholder="your@email.com" required />
+            <input type="email" name="email" placeholder="your@email.com" required />
           </div>
           <div class="field">
             <label>Message</label>
-            <textarea placeholder="How can we help?"></textarea>
+            <textarea name="message" placeholder="How can we help?"></textarea>
           </div>
           <button class="submit-btn" type="submit">Send Enquiry</button>
         </form>
-        <div class="form-success" id="enquiry-success">Message received — we will be in touch.</div>
-      </div>
-    </li>
-
-    <!-- Careers -->
-    <li class="nav-item" id="careers-item">
-      <button class="nav-btn" onclick="toggle('careers-item')">
-        Careers
-        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M1 1l4 4 4-4"/>
-        </svg>
-      </button>
-      <div class="dropdown">
-        <div class="dropdown-title">Join Vanta Systems</div>
-        <form onsubmit="submitForm(event, 'careers-success')">
-          <div class="field">
-            <label>Full Name</label>
-            <input type="text" placeholder="Your name" required />
-          </div>
-          <div class="field">
-            <label>Email</label>
-            <input type="email" placeholder="your@email.com" required />
-          </div>
-          <div class="field">
-            <label>Role of Interest</label>
-            <select>
-              <option value="">Select a role</option>
-              <option>Intelligence Analyst</option>
-              <option>Security Engineer</option>
-              <option>Software Engineer</option>
-              <option>Operations</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Cover Note</label>
-            <textarea placeholder="Tell us about yourself"></textarea>
-          </div>
-          <button class="submit-btn" type="submit">Submit Application</button>
-        </form>
-        <div class="form-success" id="careers-success">Application received — we will review and respond.</div>
+        <div class="form-success" id="enquiry-success">Message received —<br>we will be in touch.</div>
       </div>
     </li>
 
   </ul>
 </nav>
 
-<!-- Main -->
-<div class="content">
-  <div class="content-eyebrow">Pre-Operational — Est. 2025 — Australia</div>
-  <p class="content-desc">
-    A next-generation intelligence and security platform.<br>
-    Built for environments that demand precision.
-  </p>
-  <div class="countdown">
-    <div class="cd-unit">
-      <span class="cd-num" id="cd-days">--</span>
-      <span class="cd-label">Days</span>
+<!-- Hero -->
+<div class="hero">
+
+  <!-- Left -->
+  <div class="hero-left">
+    <div>
+      <div class="hero-tag">Pre-Operational — Est. 2025 — Australia</div>
+      <h1>Building<br>autonomous<br><span>futures.</span></h1>
+      <p class="hero-desc">
+        A next-generation intelligence and security platform.
+        Built for environments that demand precision, speed, and absolute discretion.
+      </p>
     </div>
-    <div class="cd-unit">
-      <span class="cd-num" id="cd-hours">--</span>
-      <span class="cd-label">Hrs</span>
-    </div>
-    <div class="cd-unit">
-      <span class="cd-num" id="cd-mins">--</span>
-      <span class="cd-label">Min</span>
-    </div>
-    <div class="cd-unit">
-      <span class="cd-num" id="cd-secs">--</span>
-      <span class="cd-label">Sec</span>
+    <div>
+      <div class="section-label" style="margin-bottom:16px;">Estimated launch</div>
+      <div class="countdown">
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-days">--</span>
+          <span class="cd-label">Days</span>
+        </div>
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-hours">--</span>
+          <span class="cd-label">Hrs</span>
+        </div>
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-mins">--</span>
+          <span class="cd-label">Min</span>
+        </div>
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-secs">--</span>
+          <span class="cd-label">Sec</span>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Right — Careers widget -->
+  <div class="hero-right">
+    <div class="section-label">Open Positions</div>
+    <div class="jobs">
+
+      <div class="job-card">
+        <div class="job-info">
+          <div class="job-title">Intelligence Analyst</div>
+          <div class="job-meta">
+            <span>Operations</span>
+            <span>Sydney, AU</span>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="job-apply" onclick="openApply('Intelligence Analyst')">Apply</button>
+      </div>
+
+      <div class="job-card">
+        <div class="job-info">
+          <div class="job-title">Security Engineer</div>
+          <div class="job-meta">
+            <span>Engineering</span>
+            <span>Remote</span>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="job-apply" onclick="openApply('Security Engineer')">Apply</button>
+      </div>
+
+      <div class="job-card">
+        <div class="job-info">
+          <div class="job-title">Software Engineer — Platform</div>
+          <div class="job-meta">
+            <span>Engineering</span>
+            <span>Sydney, AU</span>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="job-apply" onclick="openApply('Software Engineer — Platform')">Apply</button>
+      </div>
+
+      <div class="job-card">
+        <div class="job-info">
+          <div class="job-title">Operations Associate</div>
+          <div class="job-meta">
+            <span>Operations</span>
+            <span>Sydney, AU</span>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="job-apply" onclick="openApply('Operations Associate')">Apply</button>
+      </div>
+
+    </div>
+    <p class="jobs-note">Don't see your role? Submit a general application below.</p>
+    <button class="job-apply" style="margin-top:12px; align-self:flex-start;" onclick="openApply('General Application')">General Application</button>
+  </div>
+
 </div>
 
 <!-- Footer -->
-<div class="footer">
-  <span>vantasystems.com.au</span>
-  <span class="footer-right">© 2025 Vanta Systems Pty Ltd. All rights reserved.</span>
+<footer>
+  <span class="footer-l">vantasystems.com.au</span>
+  <span class="footer-r">© 2025 Vanta Systems Pty Ltd</span>
+</footer>
+
+<!-- Apply Modal -->
+<div class="modal-overlay" id="apply-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeApply()">✕</button>
+    <div class="modal-title">Apply for</div>
+    <div class="modal-role" id="modal-role-title">—</div>
+    <form onsubmit="submitApplication(event)">
+      <input type="hidden" name="role" id="modal-role-input" />
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" name="name" placeholder="Your name" required />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="your@email.com" required />
+      </div>
+      <div class="field">
+        <label>Cover Note</label>
+        <textarea name="cover" placeholder="Tell us about yourself and why this role"></textarea>
+      </div>
+      <button class="submit-btn" type="submit">Submit Application</button>
+    </form>
+    <div class="form-success" id="apply-success">Application received —<br>we will review and be in touch.</div>
+  </div>
 </div>
 
 <script>
@@ -420,27 +647,66 @@
   setInterval(tick, 1000);
   tick();
 
-  // Dropdown toggle
+  // Nav dropdown toggle
   function toggle(id) {
     const item = document.getElementById(id);
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
-
-  // Close on outside click
   document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-item')) {
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
-    }
+    if (!e.target.closest('.nav-item')) document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
   });
 
-  // Form submit
-  function submitForm(e, successId) {
+  // Apply modal
+  function openApply(role) {
+    document.getElementById('modal-role-title').textContent = role;
+    document.getElementById('modal-role-input').value = role;
+    document.getElementById('apply-modal').classList.add('open');
+  }
+  function closeApply() {
+    document.getElementById('apply-modal').classList.remove('open');
+  }
+  document.getElementById('apply-modal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeApply();
+  });
+
+  // Submit enquiry
+  async function submitEnquiry(e) {
     e.preventDefault();
-    e.target.style.display = 'none';
-    document.getElementById(successId).style.display = 'block';
-    // TODO: wire to backend API
+    const btn = e.target.querySelector('.submit-btn');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    const data = Object.fromEntries(new FormData(e.target));
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        e.target.style.display = 'none';
+        document.getElementById('enquiry-success').style.display = 'block';
+      } else { btn.textContent = 'Try again'; btn.disabled = false; }
+    } catch { btn.textContent = 'Try again'; btn.disabled = false; }
+  }
+
+  // Submit application
+  async function submitApplication(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    const data = Object.fromEntries(new FormData(e.target));
+    try {
+      const res = await fetch('/api/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        e.target.style.display = 'none';
+        document.getElementById('apply-success').style.display = 'block';
+      } else { btn.textContent = 'Try again'; btn.disabled = false; }
+    } catch { btn.textContent = 'Try again'; btn.disabled = false; }
   }
 </script>
 
