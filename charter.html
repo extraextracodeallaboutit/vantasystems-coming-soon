@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Company Charter — Vanta Systems</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
   <style>
@@ -25,9 +26,22 @@
       font-family: 'Inter', -apple-system, sans-serif;
       font-weight: 300;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
+
+    /* ── Page transition ── */
+    .page-transition {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .page-transition.active { opacity: 1; pointer-events: all; }
 
     /* ── Nav ── */
     nav {
@@ -43,12 +57,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .nav-logo {
-      height: 52px;
-      width: auto;
-      display: block;
-      mix-blend-mode: screen;
-    }
+    .nav-logo { height: 52px; width: auto; display: block;  }
 
     .nav-right { display: flex; align-items: center; gap: 4px; }
 
@@ -68,33 +77,11 @@
       align-items: center;
       gap: 6px;
     }
-
     .nav-btn:hover { border-color: var(--grey); background: var(--grey-light); }
+    .nav-btn.active { border-color: var(--grey); color: var(--white); }
 
-    /* ── Page layout ── */
-    .page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 80px 48px 120px;
-    }
-
-    /* ── Back ── */
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--grey);
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      margin-bottom: 64px;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .back:hover { border-color: var(--grey); color: var(--white); }
-    .back svg { width: 10px; height: 10px; }
+    /* ── Page ── */
+    .page { max-width: 1200px; margin: 0 auto; padding: 80px 48px 0; }
 
     /* ── Hero ── */
     .charter-hero {
@@ -103,7 +90,6 @@
       gap: 0;
       padding-bottom: 80px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 0;
     }
 
     .charter-hero-left { padding-right: 64px; border-right: 1px solid var(--border); }
@@ -124,31 +110,60 @@
       letter-spacing: -0.03em;
       color: var(--white);
     }
-
     .charter-title span { color: var(--grey); }
 
     .charter-hero-right {
       padding-left: 64px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: space-between;
+    }
+
+    /* Improved quote */
+    .charter-quote-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
     }
 
     .charter-quote {
-      font-size: clamp(18px, 2vw, 24px);
+      position: relative;
+      padding: 32px 0 32px 32px;
+    }
+
+    .charter-quote::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--white), transparent);
+    }
+
+    .charter-quote-text {
+      font-size: clamp(17px, 1.8vw, 22px);
       font-weight: 300;
-      line-height: 1.6;
-      color: rgba(240,239,237,0.7);
-      padding-left: 24px;
-      border-left: 1px solid var(--border);
-      font-style: italic;
+      line-height: 1.65;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .charter-quote-attr {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
     }
 
     .charter-byline {
-      font-size: 11px;
-      letter-spacing: 0.1em;
+      font-size: 9px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--grey);
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
       margin-top: 32px;
     }
 
@@ -205,19 +220,38 @@
       line-height: 1.05;
       letter-spacing: -0.02em;
       color: var(--white);
+      margin-bottom: 32px;
+    }
+    .section-title span { color: var(--grey); }
+
+    /* Schematic */
+    .schematic {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 1px solid var(--border);
+      background: #050505;
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
-    .section-title span { color: var(--grey); }
+    .schematic.visible { opacity: 1; transform: translateY(0); }
+
+    .schematic svg { width: 100%; height: 100%; }
+
+    .section-content { display: flex; flex-direction: column; gap: 32px; }
 
     .section-body {
       max-width: 640px;
-      font-size: clamp(15px, 1.4vw, 18px);
-      line-height: 1.8;
-      color: rgba(240,239,237,0.75);
+      font-size: clamp(14px, 1.3vw, 17px);
+      line-height: 1.85;
+      color: rgba(240,239,237,0.7);
       font-weight: 300;
     }
 
-    .section-body p + p { margin-top: 28px; }
+    .section-body p + p { margin-top: 24px; }
 
     /* ── Final ── */
     .charter-final {
@@ -230,13 +264,13 @@
     }
 
     .final-question {
-      font-size: clamp(28px, 3vw, 44px);
+      font-size: clamp(22px, 2.4vw, 34px);
       font-weight: 300;
-      line-height: 1.2;
+      line-height: 1.3;
       letter-spacing: -0.02em;
       color: var(--grey);
       font-style: italic;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .final-answer {
@@ -245,7 +279,7 @@
       line-height: 1.1;
       letter-spacing: -0.025em;
       color: var(--white);
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .final-close {
@@ -276,16 +310,120 @@
 
     /* ── Footer ── */
     footer {
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-col {
+      padding: 48px;
+      border-right: 1px solid var(--border);
+    }
+    .footer-col:last-child { border-right: none; }
+
+    .footer-col-label {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .footer-logo { height: 48px;  }
+
+    .footer-tagline {
+      font-size: 11px;
+      color: var(--grey);
+      letter-spacing: 0.06em;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .footer-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(240,239,237,0.5);
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--white); }
+    .footer-link svg { width: 14px; height: 14px; opacity: 0.5; }
+
+    /* Footer enquiry */
+    .footer-field { margin-bottom: 14px; }
+    .footer-field label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 6px;
+    }
+    .footer-field input,
+    .footer-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #2e2e2e;
+      padding: 5px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.15s;
+      resize: none;
+    }
+    .footer-field input:focus,
+    .footer-field textarea:focus { border-color: var(--grey); }
+    .footer-field textarea { height: 48px; }
+
+    .footer-submit {
+      width: 100%;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 11px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: opacity 0.15s;
+    }
+    .footer-submit:hover { opacity: 0.85; }
+    .footer-submit:disabled { opacity: 0.4; }
+
+    .footer-form-success {
+      display: none;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding: 10px 0 0;
+      line-height: 1.8;
+    }
+
+    .footer-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 48px;
-      border-top: 1px solid var(--border);
+      padding: 16px 48px;
     }
 
-    .footer-l, .footer-r {
+    .footer-copy {
       font-size: 9px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--grey);
     }
@@ -293,28 +431,32 @@
     /* ── Mobile ── */
     @media (max-width: 900px) {
       nav { padding: 0 24px; }
-      .page { padding: 48px 24px 80px; }
+      .page { padding: 48px 24px 0; }
       .charter-hero { grid-template-columns: 1fr; gap: 48px; }
       .charter-hero-left { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
       .charter-hero-right { padding-left: 0; }
       .charter-section, .charter-final { grid-template-columns: 1fr; gap: 40px; }
       .section-meta { position: static; }
-      footer { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-col { border-right: none; border-bottom: 1px solid var(--border); padding: 32px 24px; }
+      .footer-bottom { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
+<div class="page-transition" id="page-transition"></div>
+
 <nav>
-  <a href="index.html">
-    <img src="2.png" alt="Vanta Systems" class="nav-logo" />
+  <a href="index.html" class="nav-transition">
+    <img src="transp.png" alt="Vanta Systems" class="nav-logo" />
   </a>
   <div class="nav-right">
-    <a href="index.html" class="nav-btn">
+    <a href="index.html" class="nav-btn nav-transition">
       <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" width="9" height="9"><path d="M6 2L2 5l4 3"/></svg>
       Back
     </a>
-    <a href="charter.html" class="nav-btn" style="border-color: var(--grey); color: var(--white);">Company Charter</a>
+    <span class="nav-btn active">Company Charter</span>
   </div>
 </nav>
 
@@ -327,11 +469,17 @@
       <h1 class="charter-title">Building<br>Autonomous<br><span>Futures.</span></h1>
     </div>
     <div class="charter-hero-right">
-      <blockquote class="charter-quote">
-        Technology should solve real problems.<br>
-        That is the foundation of Vanta Systems.
-      </blockquote>
-      <div class="charter-byline">Est. 2025 · Adelaide, Australia</div>
+      <div class="charter-quote-wrap">
+        <div class="charter-quote">
+          <div class="charter-quote-text">
+            Technology should solve real problems.<br>
+            Not create the appearance of progress —<br>
+            but build systems that actually work.
+          </div>
+          <div class="charter-quote-attr">Foundation Principle — Vanta Systems, 2025</div>
+        </div>
+      </div>
+      <div class="charter-byline">Est. 2025 · Adelaide, Australia · Intelligence & Security</div>
     </div>
   </div>
 
@@ -343,41 +491,250 @@
     </div>
   </div>
 
-  <!-- Section 1 -->
+  <!-- Section 01 — Why We Exist -->
   <div class="charter-section">
     <div class="section-meta">
       <div class="section-num">01 — Purpose</div>
       <h2 class="section-title">Why We<br><span>Exist.</span></h2>
     </div>
-    <div class="section-body">
-      <p>Vanta Systems was founded to help turn ideas into capability. We believe technology should not be reserved for large corporations with endless resources. It should be accessible, practical and focused on delivering real outcomes.</p>
-      <p>Our mission is to design and develop systems that improve the way people work, create and operate. Whether through software, automation, artificial intelligence or emerging technologies, our focus remains the same. Build solutions that make a measurable difference.</p>
-      <p>A key fact that drives our thinking is that a significant portion of repetitive workplace tasks can now be automated through modern technology. This creates an opportunity to reduce wasted time, increase productivity and allow people to focus on higher value work.</p>
-      <p>That is the why behind Vanta Systems.</p>
+    <div class="section-content">
+      <!-- Schematic: Payload trajectory -->
+      <div class="schematic" data-schematic="trajectory">
+        <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .sch-text { font-family: 'Inter', monospace; fill: rgba(240,239,237,0.4); font-size: 9px; letter-spacing: 0.1em; }
+              .sch-line { stroke: rgba(240,239,237,0.15); stroke-width: 0.5; }
+              .sch-white { stroke: rgba(240,239,237,0.7); }
+              .sch-dim { stroke: rgba(240,239,237,0.25); stroke-dasharray: 3 3; }
+            </style>
+          </defs>
+          <!-- Grid -->
+          <line x1="0" y1="50" x2="800" y2="50" class="sch-line"/>
+          <line x1="0" y1="150" x2="800" y2="150" class="sch-line"/>
+          <line x1="0" y1="250" x2="800" y2="250" class="sch-line"/>
+          <line x1="0" y1="350" x2="800" y2="350" class="sch-line"/>
+          <line x1="100" y1="0" x2="100" y2="450" class="sch-line"/>
+          <line x1="300" y1="0" x2="300" y2="450" class="sch-line"/>
+          <line x1="500" y1="0" x2="500" y2="450" class="sch-line"/>
+          <line x1="700" y1="0" x2="700" y2="450" class="sch-line"/>
+          <!-- Ground line -->
+          <line x1="0" y1="390" x2="800" y2="390" stroke="rgba(240,239,237,0.3)" stroke-width="1"/>
+          <!-- Operators -->
+          <g transform="translate(80, 360)">
+            <circle cx="0" cy="-15" r="5" stroke="rgba(240,239,237,0.6)" stroke-width="1" fill="none"/>
+            <line x1="0" y1="-10" x2="0" y2="0" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <line x1="-8" y1="-5" x2="8" y2="-5" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <line x1="0" y1="0" x2="-6" y2="15" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <line x1="0" y1="0" x2="6" y2="15" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <!-- Launcher -->
+            <line x1="8" y1="-4" x2="28" y2="-18" stroke="rgba(240,239,237,0.5)" stroke-width="2"/>
+          </g>
+          <g transform="translate(110, 360)">
+            <circle cx="0" cy="-15" r="5" stroke="rgba(240,239,237,0.6)" stroke-width="1" fill="none"/>
+            <line x1="0" y1="-10" x2="0" y2="0" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <line x1="-8" y1="-5" x2="8" y2="-5" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <line x1="0" y1="0" x2="-6" y2="15" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <line x1="0" y1="0" x2="6" y2="15" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <!-- Radio -->
+            <line x1="-4" y1="-20" x2="-12" y2="-36" stroke="rgba(240,239,237,0.4)" stroke-width="1"/>
+            <line x1="-12" y1="-36" x2="-8" y2="-36" stroke="rgba(240,239,237,0.4)" stroke-width="1"/>
+          </g>
+          <!-- Trajectory arc -->
+          <path d="M 100 370 Q 400 20 700 380"
+            stroke="rgba(240,239,237,0.8)" stroke-width="1.5" fill="none"
+            stroke-dasharray="800" stroke-dashoffset="800">
+            <animate attributeName="stroke-dashoffset" from="800" to="0" dur="2s" begin="0.5s" fill="freeze" calcMode="ease"/>
+          </path>
+          <!-- Velocity markers -->
+          <circle cx="250" cy="160" r="3" fill="rgba(240,239,237,0.4)">
+            <animate attributeName="opacity" values="0;1" dur="0.3s" begin="1s" fill="freeze"/>
+          </circle>
+          <circle cx="400" cy="60" r="3" fill="rgba(240,239,237,0.4)">
+            <animate attributeName="opacity" values="0;1" dur="0.3s" begin="1.3s" fill="freeze"/>
+          </circle>
+          <circle cx="550" cy="155" r="3" fill="rgba(240,239,237,0.4)">
+            <animate attributeName="opacity" values="0;1" dur="0.3s" begin="1.6s" fill="freeze"/>
+          </circle>
+          <!-- Labels -->
+          <text x="240" y="148" class="sch-text">ALT 4200M</text>
+          <text x="390" y="48" class="sch-text">APOGEE</text>
+          <text x="540" y="143" class="sch-text">DESCENT</text>
+          <!-- Target -->
+          <circle cx="700" cy="378" r="8" stroke="rgba(240,239,237,0.5)" stroke-width="1" fill="none"/>
+          <circle cx="700" cy="378" r="3" fill="rgba(240,239,237,0.6)"/>
+          <line x1="692" y1="378" x2="684" y2="378" stroke="rgba(240,239,237,0.5)" stroke-width="1"/>
+          <line x1="708" y1="378" x2="716" y2="378" stroke="rgba(240,239,237,0.5)" stroke-width="1"/>
+          <line x1="700" y1="370" x2="700" y2="362" stroke="rgba(240,239,237,0.5)" stroke-width="1"/>
+          <line x1="700" y1="386" x2="700" y2="394" stroke="rgba(240,239,237,0.5)" stroke-width="1"/>
+          <!-- Labels -->
+          <text x="10" y="44" class="sch-text">ALT</text>
+          <text x="10" y="396" class="sch-text">GND</text>
+          <text x="60" y="420" class="sch-text">ORIGIN</text>
+          <text x="665" y="420" class="sch-text">TARGET</text>
+          <text x="340" y="440" class="sch-text">FIG 1.1 — PAYLOAD TRAJECTORY PROFILE</text>
+        </svg>
+      </div>
+      <div class="section-body">
+        <p>Vanta Systems was founded to help turn ideas into capability. We believe technology should not be reserved for large corporations with endless resources. It should be accessible, practical and focused on delivering real outcomes.</p>
+        <p>Our mission is to design and develop systems that improve the way people work, create and operate. Whether through software, automation, artificial intelligence or emerging technologies, our focus remains the same. Build solutions that make a measurable difference.</p>
+        <p>A key fact that drives our thinking is that a significant portion of repetitive workplace tasks can now be automated through modern technology. This creates an opportunity to reduce wasted time, increase productivity and allow people to focus on higher value work.</p>
+      </div>
     </div>
   </div>
 
-  <!-- Section 2 -->
+  <!-- Section 02 — What We Build -->
   <div class="charter-section">
     <div class="section-meta">
       <div class="section-num">02 — Approach</div>
       <h2 class="section-title">What We<br><span>Build.</span></h2>
     </div>
-    <div class="section-body">
-      <p>Vanta Systems develops integrated software across intelligence, cybersecurity, artificial intelligence, and automation. Our mission is to consolidate the fragmented security ecosystem by providing a unified platform for OSINT, penetration testing, digital investigations, and operational workflows.</p>
-      <p>We are not interested in building technology for attention. We are interested in building technology that creates capability. Systems that solve problems. Systems that save time. Systems that scale. Systems that help people achieve more.</p>
+    <div class="section-content">
+      <!-- Schematic: SIGINT neural sphere -->
+      <div class="schematic" data-schematic="sigint">
+        <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .sch-text { font-family: 'Inter', monospace; fill: rgba(240,239,237,0.4); font-size: 9px; letter-spacing: 0.1em; }
+              .sch-line { stroke: rgba(240,239,237,0.1); stroke-width: 0.5; }
+            </style>
+          </defs>
+          <!-- Grid -->
+          <line x1="0" y1="150" x2="800" y2="150" class="sch-line"/>
+          <line x1="0" y1="300" x2="800" y2="300" class="sch-line"/>
+          <line x1="200" y1="0" x2="200" y2="450" class="sch-line"/>
+          <line x1="400" y1="0" x2="400" y2="450" class="sch-line"/>
+          <line x1="600" y1="0" x2="600" y2="450" class="sch-line"/>
+          <!-- Central sphere -->
+          <circle cx="400" cy="225" r="90" stroke="rgba(240,239,237,0.15)" stroke-width="1" fill="none"/>
+          <circle cx="400" cy="225" r="60" stroke="rgba(240,239,237,0.1)" stroke-width="0.5" fill="none"/>
+          <ellipse cx="400" cy="225" rx="90" ry="28" stroke="rgba(240,239,237,0.15)" stroke-width="0.5" fill="none"/>
+          <ellipse cx="400" cy="225" rx="90" ry="60" stroke="rgba(240,239,237,0.1)" stroke-width="0.5" fill="none" transform="rotate(60,400,225)"/>
+          <ellipse cx="400" cy="225" rx="90" ry="60" stroke="rgba(240,239,237,0.1)" stroke-width="0.5" fill="none" transform="rotate(-60,400,225)"/>
+          <!-- Centre dot -->
+          <circle cx="400" cy="225" r="4" fill="rgba(240,239,237,0.8)"/>
+          <!-- Node connections -->
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="0.3s" fill="freeze"/>
+            <line x1="400" y1="225" x2="160" y2="120" stroke="rgba(240,239,237,0.3)" stroke-width="0.8"/>
+            <circle cx="160" cy="120" r="4" fill="none" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <text x="120" y="110" class="sch-text">OSINT</text>
+          </g>
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="0.6s" fill="freeze"/>
+            <line x1="400" y1="225" x2="640" y2="110" stroke="rgba(240,239,237,0.3)" stroke-width="0.8"/>
+            <circle cx="640" cy="110" r="4" fill="none" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <text x="648" y="106" class="sch-text">PENTEST</text>
+          </g>
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="0.9s" fill="freeze"/>
+            <line x1="400" y1="225" x2="680" y2="310" stroke="rgba(240,239,237,0.3)" stroke-width="0.8"/>
+            <circle cx="680" cy="310" r="4" fill="none" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <text x="688" y="306" class="sch-text">DIGITAL INV.</text>
+          </g>
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="1.2s" fill="freeze"/>
+            <line x1="400" y1="225" x2="160" y2="340" stroke="rgba(240,239,237,0.3)" stroke-width="0.8"/>
+            <circle cx="160" cy="340" r="4" fill="none" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <text x="80" y="336" class="sch-text">AUTOMATION</text>
+          </g>
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="1.5s" fill="freeze"/>
+            <line x1="400" y1="225" x2="400" y2="80" stroke="rgba(240,239,237,0.3)" stroke-width="0.8"/>
+            <circle cx="400" cy="80" r="4" fill="none" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <text x="360" y="68" class="sch-text">CYBER SEC.</text>
+          </g>
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="1.8s" fill="freeze"/>
+            <line x1="400" y1="225" x2="400" y2="380" stroke="rgba(240,239,237,0.3)" stroke-width="0.8"/>
+            <circle cx="400" cy="380" r="4" fill="none" stroke="rgba(240,239,237,0.6)" stroke-width="1"/>
+            <text x="362" y="400" class="sch-text">OPS WORKFLOW</text>
+          </g>
+          <!-- Pulse ring -->
+          <circle cx="400" cy="225" r="90" stroke="rgba(240,239,237,0.4)" stroke-width="0.5" fill="none" opacity="0">
+            <animate attributeName="r" values="90;130" dur="2s" begin="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.4;0" dur="2s" begin="2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="310" y="440" class="sch-text">FIG 2.1 — UNIFIED PLATFORM ARCHITECTURE — SIGINT COMMAND NODE</text>
+        </svg>
+      </div>
+      <div class="section-body">
+        <p>Vanta Systems develops integrated software across intelligence, cybersecurity, artificial intelligence, and automation. Our mission is to consolidate the fragmented security ecosystem by providing a unified platform for OSINT, penetration testing, digital investigations, and operational workflows.</p>
+        <p>We are not interested in building technology for attention. We are interested in building technology that creates capability. Systems that solve problems. Systems that save time. Systems that scale. Systems that help people achieve more.</p>
+      </div>
     </div>
   </div>
 
-  <!-- Section 3 -->
+  <!-- Section 03 — How We Think -->
   <div class="charter-section">
     <div class="section-meta">
       <div class="section-num">03 — Values</div>
       <h2 class="section-title">How We<br><span>Think.</span></h2>
     </div>
-    <div class="section-body">
-      <p>We value curiosity, creativity and practical thinking. We challenge assumptions and look for better ways to solve problems. We understand that technology is never finished and that every solution can be refined.</p>
-      <p>Our vision extends beyond software alone. We see a future where intelligent systems, automation and emerging technologies work together to improve industries, strengthen organisations and unlock new possibilities.</p>
+    <div class="section-content">
+      <!-- Schematic: Ground radar -->
+      <div class="schematic" data-schematic="radar">
+        <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .sch-text { font-family: 'Inter', monospace; fill: rgba(240,239,237,0.4); font-size: 9px; letter-spacing: 0.1em; }
+              .sch-line { stroke: rgba(240,239,237,0.1); stroke-width: 0.5; }
+            </style>
+            <clipPath id="radar-clip">
+              <circle cx="580" cy="240" r="140"/>
+            </clipPath>
+          </defs>
+          <!-- Grid -->
+          <line x1="0" y1="150" x2="800" y2="150" class="sch-line"/>
+          <line x1="0" y1="300" x2="800" y2="300" class="sch-line"/>
+          <line x1="200" y1="0" x2="200" y2="450" class="sch-line"/>
+          <line x1="500" y1="0" x2="500" y2="450" class="sch-line"/>
+          <!-- Ground radar dish — left -->
+          <line x1="150" y1="360" x2="150" y2="200" stroke="rgba(240,239,237,0.4)" stroke-width="2"/>
+          <path d="M100 200 Q150 160 200 200" stroke="rgba(240,239,237,0.6)" stroke-width="1.5" fill="none"/>
+          <line x1="150" y1="180" x2="150" y2="200" stroke="rgba(240,239,237,0.3)" stroke-width="1"/>
+          <!-- Base -->
+          <rect x="130" y="358" width="40" height="8" stroke="rgba(240,239,237,0.4)" stroke-width="1" fill="none"/>
+          <rect x="120" y="366" width="60" height="5" stroke="rgba(240,239,237,0.3)" stroke-width="0.5" fill="none"/>
+          <!-- Beam -->
+          <line x1="150" y1="178" x2="580" y2="100" stroke="rgba(240,239,237,0.15)" stroke-width="0.8" stroke-dasharray="4 4">
+            <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+          </line>
+          <line x1="150" y1="178" x2="580" y2="380" stroke="rgba(240,239,237,0.15)" stroke-width="0.8" stroke-dasharray="4 4">
+            <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+          </line>
+          <!-- Radar display -->
+          <circle cx="580" cy="240" r="140" stroke="rgba(240,239,237,0.2)" stroke-width="1" fill="rgba(240,239,237,0.02)"/>
+          <circle cx="580" cy="240" r="100" stroke="rgba(240,239,237,0.1)" stroke-width="0.5" fill="none"/>
+          <circle cx="580" cy="240" r="60" stroke="rgba(240,239,237,0.1)" stroke-width="0.5" fill="none"/>
+          <circle cx="580" cy="240" r="20" stroke="rgba(240,239,237,0.1)" stroke-width="0.5" fill="none"/>
+          <line x1="440" y1="240" x2="720" y2="240" stroke="rgba(240,239,237,0.08)" stroke-width="0.5"/>
+          <line x1="580" y1="100" x2="580" y2="380" stroke="rgba(240,239,237,0.08)" stroke-width="0.5"/>
+          <!-- Sweep -->
+          <line x1="580" y1="240" x2="720" y2="240" stroke="rgba(240,239,237,0.5)" stroke-width="1.5" transform-origin="580 240">
+            <animateTransform attributeName="transform" type="rotate" from="0 580 240" to="360 580 240" dur="4s" repeatCount="indefinite"/>
+          </line>
+          <!-- Blips -->
+          <circle cx="640" cy="180" r="3" fill="rgba(240,239,237,0.8)">
+            <animate attributeName="opacity" values="0;1;0" dur="4s" begin="1s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="510" cy="290" r="2" fill="rgba(240,239,237,0.6)">
+            <animate attributeName="opacity" values="0;1;0" dur="4s" begin="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="670" cy="300" r="2" fill="rgba(240,239,237,0.5)">
+            <animate attributeName="opacity" values="0;1;0" dur="4s" begin="3.2s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Labels -->
+          <text x="100" y="396" class="sch-text">GBR ARRAY — UNIT 01</text>
+          <text x="520" y="420" class="sch-text">DISPLAY — 140KM RANGE</text>
+          <text x="280" y="440" class="sch-text">FIG 3.1 — GROUND BASED RADAR — ACTIVE SCAN — 360°</text>
+        </svg>
+      </div>
+      <div class="section-body">
+        <p>We value curiosity, creativity and practical thinking. We challenge assumptions and look for better ways to solve problems. We understand that technology is never finished and that every solution can be refined.</p>
+        <p>We believe innovation comes from action. Great ideas mean little without execution. Progress is made by those willing to build, test, learn and improve.</p>
+        <p>Our vision extends beyond software alone. We see a future where intelligent systems, automation and emerging technologies work together to improve industries, strengthen organisations and unlock new possibilities.</p>
+      </div>
     </div>
   </div>
 
@@ -397,10 +754,100 @@
 
 </div>
 
+<!-- Footer -->
 <footer>
-  <span class="footer-l">vantasystems.com.au</span>
-  <span class="footer-r">© 2025 Vanta Systems Pty Ltd</span>
+  <div class="footer-top">
+    <div class="footer-col">
+      <img src="transp.png" alt="Vanta Systems" class="footer-logo" />
+      <div class="footer-tagline">Building Autonomous Futures.<br>Adelaide, Australia · Est. 2025</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Links</div>
+      <a href="index.html" class="footer-link">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 1l6 6-6 6M1 7h12"/></svg>
+        Home
+      </a>
+      <a href="charter.html" class="footer-link">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 1l6 6-6 6M1 7h12"/></svg>
+        Company Charter
+      </a>
+      <a href="https://www.linkedin.com/company/vanta-systems-au" target="_blank" rel="noopener" class="footer-link">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="1" width="12" height="12" rx="2"/><path d="M4 6v5M4 4v.5M7 11V8a1 1 0 012 0v3M7 8v3"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:engineering@vantasystems.com.au" class="footer-link">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="3" width="12" height="8" rx="1"/><path d="M1 4l6 4 6-4"/></svg>
+        engineering@vantasystems.com.au
+      </a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Enquiries</div>
+      <form onsubmit="submitFooterEnquiry(event)">
+        <div class="footer-field">
+          <label>Name</label>
+          <input type="text" name="name" placeholder="Your name" required />
+        </div>
+        <div class="footer-field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="footer-field">
+          <label>Message</label>
+          <textarea name="message" placeholder="How can we help?"></textarea>
+        </div>
+        <button class="footer-submit" type="submit">Send</button>
+      </form>
+      <div class="footer-form-success" id="footer-enquiry-success">Message received — we will be in touch.</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Vanta Systems Pty Ltd. All rights reserved.</span>
+    <span class="footer-copy">vantasystems.com.au</span>
+  </div>
 </footer>
+
+<script>
+  // Scroll-triggered schematics
+  const schematics = document.querySelectorAll('.schematic');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  schematics.forEach(s => observer.observe(s));
+
+  // Page transitions
+  document.querySelectorAll('.nav-transition').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      const overlay = document.getElementById('page-transition');
+      overlay.classList.add('active');
+      setTimeout(() => { window.location.href = href; }, 300);
+    });
+  });
+
+  // Footer enquiry
+  async function submitFooterEnquiry(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.footer-submit');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
+      });
+      if (res.ok) {
+        e.target.style.display = 'none';
+        document.getElementById('footer-enquiry-success').style.display = 'block';
+      } else { btn.textContent = 'Try again'; btn.disabled = false; }
+    } catch { btn.textContent = 'Try again'; btn.disabled = false; }
+  }
+</script>
 
 </body>
 </html>

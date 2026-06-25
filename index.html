@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VANTA SYSTEMS — BUILDING AUTONOMOUS FUTURES.</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
   <style>
@@ -46,7 +47,7 @@
       height: 52px;
       width: auto;
       display: block;
-      mix-blend-mode: screen;
+      
     }
 
     .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
@@ -396,16 +397,131 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* ── Page transition ── */
+    .page-transition {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .page-transition.active { opacity: 1; pointer-events: all; }
+
     /* ── Footer ── */
-    footer {
+    footer { border-top: 1px solid var(--border); }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-col {
+      padding: 40px 48px;
+      border-right: 1px solid var(--border);
+    }
+    .footer-col:last-child { border-right: none; }
+
+    .footer-col-label {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 20px;
+    }
+
+    .footer-logo { height: 48px;  }
+
+    .footer-tagline {
+      font-size: 11px;
+      color: var(--grey);
+      letter-spacing: 0.06em;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .footer-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(240,239,237,0.5);
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--white); }
+    .footer-link svg { width: 14px; height: 14px; opacity: 0.5; }
+
+    .footer-field { margin-bottom: 12px; }
+    .footer-field label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 5px;
+    }
+    .footer-field input,
+    .footer-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #2e2e2e;
+      padding: 5px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.15s;
+      resize: none;
+    }
+    .footer-field input:focus,
+    .footer-field textarea:focus { border-color: var(--grey); }
+    .footer-field textarea { height: 44px; }
+
+    .footer-submit {
+      width: 100%;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 11px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: opacity 0.15s;
+    }
+    .footer-submit:hover { opacity: 0.85; }
+    .footer-submit:disabled { opacity: 0.4; }
+
+    .footer-form-success {
+      display: none;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding: 10px 0 0;
+      line-height: 1.8;
+    }
+
+    .footer-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 48px;
+      padding: 14px 48px;
     }
-    .footer-l, .footer-r {
+
+    .footer-copy {
       font-size: 9px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--grey);
     }
@@ -417,17 +533,21 @@
       .hero-left { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--border); }
       .hero-right { padding: 48px 24px; }
       .countdown { flex-wrap: wrap; }
-      footer { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-col { border-right: none; border-bottom: 1px solid var(--border); padding: 32px 24px; }
+      .footer-bottom { padding: 14px 24px; flex-direction: column; gap: 4px; align-items: flex-start; }
       .tag-meta { display: none; }
     }
   </style>
 </head>
 <body>
 
+<div class="page-transition" id="page-transition"></div>
+
 <nav>
-  <img src="2.png" alt="Vanta Systems" class="nav-logo" />
+  <img src="transp.png" alt="Vanta Systems" class="nav-logo" />
   <ul class="nav-links">
-    <li><a href="charter.html" class="nav-btn">Company Charter</a></li>
+    <li><a href="charter.html" class="nav-btn nav-transition">Company Charter</a></li>
     <li class="nav-item" id="enquiries-item">
       <button class="nav-btn" onclick="toggle('enquiries-item')">
         Enquiries
@@ -501,7 +621,7 @@
     <div class="job-card">
       <div class="job-title">General Application</div>
       <div class="job-meta">
-        Various Positions Available <span class="dot">•</span> Sydney, AU / Remote
+        Various Positions Available <span class="dot">•</span> Adelaide, AU / Remote
       </div>
       <div class="job-pitch">Submit your application and let us determine the best fit for your skills and experience.</div>
       <ul class="job-bullets">
@@ -516,8 +636,50 @@
 </div>
 
 <footer>
-  <span class="footer-l">vantasystems.com.au</span>
-  <span class="footer-r">© 2025 Vanta Systems Pty Ltd</span>
+  <div class="footer-top">
+    <div class="footer-col">
+      <img src="transp.png" alt="Vanta Systems" class="footer-logo" />
+      <div class="footer-tagline">Building Autonomous Futures.<br>Adelaide, Australia · Est. 2025</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Links</div>
+      <a href="charter.html" class="footer-link nav-transition">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 1l6 6-6 6M1 7h12"/></svg>
+        Company Charter
+      </a>
+      <a href="https://www.linkedin.com/company/vanta-systems-au" target="_blank" rel="noopener" class="footer-link">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="1" width="12" height="12" rx="2"/><path d="M4 6v5M4 4v.5M7 11V8a1 1 0 012 0v3M7 8v3"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:engineering@vantasystems.com.au" class="footer-link">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="3" width="12" height="8" rx="1"/><path d="M1 4l6 4 6-4"/></svg>
+        engineering@vantasystems.com.au
+      </a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Enquiries</div>
+      <form onsubmit="submitFooterEnquiry(event)">
+        <div class="footer-field">
+          <label>Name</label>
+          <input type="text" name="name" placeholder="Your name" required />
+        </div>
+        <div class="footer-field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="footer-field">
+          <label>Message</label>
+          <textarea name="message" placeholder="How can we help?"></textarea>
+        </div>
+        <button class="footer-submit" type="submit">Send</button>
+      </form>
+      <div class="footer-form-success" id="footer-enquiry-success">Message received — we will be in touch.</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Vanta Systems Pty Ltd. All rights reserved.</span>
+    <span class="footer-copy">vantasystems.com.au</span>
+  </div>
 </footer>
 
 <!-- Apply Modal -->
@@ -614,6 +776,28 @@
       else { btn.textContent = 'Try again'; btn.disabled = false; }
     } catch { btn.textContent = 'Try again'; btn.disabled = false; }
   }
+
+  async function submitFooterEnquiry(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.footer-submit');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    try {
+      const res = await fetch('/api/enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(e.target))) });
+      if (res.ok) { e.target.style.display = 'none'; document.getElementById('footer-enquiry-success').style.display = 'block'; }
+      else { btn.textContent = 'Try again'; btn.disabled = false; }
+    } catch { btn.textContent = 'Try again'; btn.disabled = false; }
+  }
+
+  // Page transitions
+  document.querySelectorAll('.nav-transition').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      const overlay = document.getElementById('page-transition');
+      overlay.classList.add('active');
+      setTimeout(() => { window.location.href = href; }, 300);
+    });
+  });
 </script>
 
 </body>
