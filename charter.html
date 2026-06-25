@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Charter — Vanta Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f0efed;
+      --grey: #5a5a5a;
+      --grey-light: #2a2a2a;
+      --border: #1e1e1e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 48px;
+      height: 72px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      height: 52px;
+      width: auto;
+      display: block;
+      mix-blend-mode: screen;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 4px; }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-btn:hover { border-color: var(--grey); background: var(--grey-light); }
+
+    /* ── Page layout ── */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 48px 120px;
+    }
+
+    /* ── Back ── */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      margin-bottom: 64px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .back:hover { border-color: var(--grey); color: var(--white); }
+    .back svg { width: 10px; height: 10px; }
+
+    /* ── Hero ── */
+    .charter-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    .charter-hero-left { padding-right: 64px; border-right: 1px solid var(--border); }
+
+    .charter-kicker {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 28px;
+    }
+
+    .charter-title {
+      font-size: clamp(48px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      color: var(--white);
+    }
+
+    .charter-title span { color: var(--grey); }
+
+    .charter-hero-right {
+      padding-left: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .charter-quote {
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(240,239,237,0.7);
+      padding-left: 24px;
+      border-left: 1px solid var(--border);
+      font-style: italic;
+    }
+
+    .charter-byline {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 32px;
+    }
+
+    /* ── Opening ── */
+    .opening {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .opening-body {
+      max-width: 680px;
+      font-size: clamp(16px, 1.5vw, 20px);
+      line-height: 1.8;
+      color: rgba(240,239,237,0.75);
+      font-weight: 300;
+    }
+
+    .opening-body p + p { margin-top: 28px; }
+
+    .opening-body p:first-child::first-letter {
+      float: left;
+      font-size: 4.2em;
+      line-height: 0.75;
+      margin: 0.06em 0.1em 0 0;
+      color: var(--white);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Sections ── */
+    .charter-section {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 80px;
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-meta { position: sticky; top: 96px; height: fit-content; }
+
+    .section-num {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+
+    .section-title span { color: var(--grey); }
+
+    .section-body {
+      max-width: 640px;
+      font-size: clamp(15px, 1.4vw, 18px);
+      line-height: 1.8;
+      color: rgba(240,239,237,0.75);
+      font-weight: 300;
+    }
+
+    .section-body p + p { margin-top: 28px; }
+
+    /* ── Final ── */
+    .charter-final {
+      padding: 120px 0 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 80px;
+      min-height: 60vh;
+      align-items: center;
+    }
+
+    .final-question {
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 300;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--grey);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    .final-answer {
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: 48px;
+    }
+
+    .final-close {
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--grey);
+      font-weight: 300;
+      max-width: 500px;
+    }
+
+    .final-close p + p { margin-top: 16px; }
+
+    .final-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      margin-top: 40px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .final-contact:hover { border-color: var(--grey); background: var(--grey-light); }
+
+    /* ── Footer ── */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-l, .footer-r {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .page { padding: 48px 24px 80px; }
+      .charter-hero { grid-template-columns: 1fr; gap: 48px; }
+      .charter-hero-left { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 48px; }
+      .charter-hero-right { padding-left: 0; }
+      .charter-section, .charter-final { grid-template-columns: 1fr; gap: 40px; }
+      .section-meta { position: static; }
+      footer { padding: 16px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">
+    <img src="2.png" alt="Vanta Systems" class="nav-logo" />
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-btn">
+      <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" width="9" height="9"><path d="M6 2L2 5l4 3"/></svg>
+      Back
+    </a>
+    <a href="charter.html" class="nav-btn" style="border-color: var(--grey); color: var(--white);">Company Charter</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="charter-hero">
+    <div class="charter-hero-left">
+      <div class="charter-kicker">Vanta Systems — Company Charter</div>
+      <h1 class="charter-title">Building<br>Autonomous<br><span>Futures.</span></h1>
+    </div>
+    <div class="charter-hero-right">
+      <blockquote class="charter-quote">
+        Technology should solve real problems.<br>
+        That is the foundation of Vanta Systems.
+      </blockquote>
+      <div class="charter-byline">Est. 2025 · Sydney, Australia</div>
+    </div>
+  </div>
+
+  <!-- Opening -->
+  <div class="opening">
+    <div class="opening-body">
+      <p>We live in a world where technology is advancing faster than ever before. Artificial intelligence, automation, robotics and software are reshaping industries, economies and daily life. The organisations and individuals who adapt will gain an advantage. Those who do not risk being left behind.</p>
+      <p>That is why we exist.</p>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="charter-section">
+    <div class="section-meta">
+      <div class="section-num">01 — Purpose</div>
+      <h2 class="section-title">Why We<br><span>Exist.</span></h2>
+    </div>
+    <div class="section-body">
+      <p>Vanta Systems was founded to help turn ideas into capability. We believe technology should not be reserved for large corporations with endless resources. It should be accessible, practical and focused on delivering real outcomes.</p>
+      <p>Our mission is to design and develop systems that improve the way people work, create and operate. Whether through software, automation, artificial intelligence or emerging technologies, our focus remains the same. Build solutions that make a measurable difference.</p>
+      <p>A key fact that drives our thinking is that a significant portion of repetitive workplace tasks can now be automated through modern technology. This creates an opportunity to reduce wasted time, increase productivity and allow people to focus on higher value work.</p>
+      <p>That is the why behind Vanta Systems.</p>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="charter-section">
+    <div class="section-meta">
+      <div class="section-num">02 — Approach</div>
+      <h2 class="section-title">What We<br><span>Build.</span></h2>
+    </div>
+    <div class="section-body">
+      <p>We are not interested in building technology for attention. We are interested in building technology that creates capability. Systems that solve problems. Systems that save time. Systems that scale. Systems that help people achieve more.</p>
+      <p>We believe innovation comes from action. Great ideas mean little without execution. Progress is made by those willing to build, test, learn and improve.</p>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="charter-section">
+    <div class="section-meta">
+      <div class="section-num">03 — Values</div>
+      <h2 class="section-title">How We<br><span>Think.</span></h2>
+    </div>
+    <div class="section-body">
+      <p>We value curiosity, creativity and practical thinking. We challenge assumptions and look for better ways to solve problems. We understand that technology is never finished and that every solution can be refined.</p>
+      <p>Our vision extends beyond software alone. We see a future where intelligent systems, automation and emerging technologies work together to improve industries, strengthen organisations and unlock new possibilities.</p>
+    </div>
+  </div>
+
+  <!-- Final -->
+  <div class="charter-final">
+    <div></div>
+    <div>
+      <p class="final-question">Everything we build is guided<br>by a simple question.</p>
+      <p class="final-answer">Will this create<br>meaningful value?</p>
+      <div class="final-close">
+        <p>If the answer is yes, we will find a way to build it.</p>
+        <p>Because technology should do more than exist. It should create capability. That is why Vanta Systems exists.</p>
+      </div>
+      <a href="mailto:engineering@vantasystems.com.au" class="final-contact">Get in touch</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-l">vantasystems.com.au</span>
+  <span class="footer-r">© 2025 Vanta Systems Pty Ltd</span>
+</footer>
+
+</body>
+</html>
